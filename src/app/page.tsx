@@ -4,13 +4,13 @@ import CapaCarros from '/public/capacarros.jpg';
 export default function Home() {
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="p-8 rounded-lg shadow-lg bg-white">
+      <div className="p-8 rounded-lg shadow-lg bg-white border-black border-4">
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-2xl font-bold mb-4 text-center">Descubra qual personagem do filme Carros você é!</h2>
           <Image 
             src={CapaCarros}
             alt="Capa filme Carros"
-            className="w-72"
+            className="w-72 rounded"
             />
         </div>
         <br />

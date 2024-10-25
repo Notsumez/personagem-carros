@@ -3,5 +3,7 @@
 @tailwind utilities;
 
 body{
-    background-image: url(https://images3.memedroid.com/images/UPLOADED213/60cbcaf3239a1.jpeg);
+    background-image: url(https://t2.tudocdn.net/271174?w=824&h=494);
+    background-repeat: no-repeat;
+    background-size: cover;
 }

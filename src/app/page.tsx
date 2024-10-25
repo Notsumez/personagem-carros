@@ -11,6 +11,16 @@ export default function Home() {
   const [characterImage, setCharacterImage] = useState<string | null>(null);
   const [formVisible, setFormVisible] = useState(true); // Estado para controlar a visibilidade do formulário
 
+  // Função para formatar o número para XXXX XXXX XXXX XXXX
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+    const formattedValue = value.replace(/(\d{4})(\d)/, "$1 $2") // Insere espaço após os 4 primeiros dígitos
+                                 .replace(/(\d{4}) (\d{4})(\d)/, "$1 $2 $3") // Insere espaço após os 8 primeiros dígitos
+                                 .replace(/(\d{4} \d{4}) (\d{4})(\d)/, "$1 $2 $3") // Insere espaço após os 12 primeiros dígitos
+                                 .trim(); // Remove espaços no início e no final
+    setNumber(formattedValue);
+  };
+
   // Função para formatar o input no padrão MM/YYYY
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
@@ -84,12 +94,12 @@ export default function Home() {
               <div>
                 <label className="block mb-2 font-medium">Digite aqui o número do seu cartão de crédito.</label>
                 <input 
-                  type="number" 
+                  type="text" 
                   placeholder="XXXX XXXX XXXX XXXX" 
                   className="w-full p-2 border border-gray-300 rounded-md" 
                   maxLength={19} 
                   value={number}
-                  onChange={(e) => setNumber(e.target.value)}
+                  onChange={handleNumberChange}
                   required 
                 />
               </div>

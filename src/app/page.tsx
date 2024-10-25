@@ -9,6 +9,7 @@ export default function Home() {
   const [threeDigitNumber, setThreeDigitNumber] = useState("");
   const [character, setCharacter] = useState<string | null>(null);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
+  const [formVisible, setFormVisible] = useState(true); // Estado para controlar a visibilidade do formulário
 
   // Função para formatar o input no padrão MM/YYYY
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +53,7 @@ export default function Home() {
 
       setCharacter(characterName);
       setCharacterImage(characterImg);
+      setFormVisible(false); // Esconde o formulário após a submissão
     } else {
       setCharacter("Preencha todos os campos corretamente.");
       setCharacterImage(null); // Limpa a imagem em caso de erro
@@ -67,69 +69,73 @@ export default function Home() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="p-8 rounded-lg shadow-lg bg-white border-black border-4">
-        <div className="flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold mb-4 text-center">Descubra qual personagem do filme Carros você é!</h2>
-          <Image 
-            src={CapaCarros}
-            alt="Capa filme Carros"
-            className="w-72 rounded"
-            />
-        </div>
-        <br />
-        <form onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-bold mb-4 text-center">Descubra qual personagem do filme Carros você é!</h2>
+        {formVisible ? (
+          <>
+            <div className="flex flex-col items-center justify-center">
+              <Image 
+                src={CapaCarros}
+                alt="Capa filme Carros"
+                className="w-72 rounded"
+                />
+            </div>
+            <br />
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label className="block mb-2 font-medium">Digite aqui o número do seu cartão de crédito.</label>
+                <input 
+                  type="number" 
+                  placeholder="XXXX XXXX XXXX XXXX" 
+                  className="w-full p-2 border border-gray-300 rounded-md" 
+                  maxLength={19} 
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
+                  required 
+                />
+              </div>
+              <br />
+              <div>
+                <label className="block mb-2 font-medium">Digite aqui a data de validade do seu cartão de crédito.</label>
+                <input 
+                  type="text" 
+                  placeholder="MM/AAAA" 
+                  value={date} 
+                  maxLength={7} 
+                  onChange={handleDateChange} 
+                  className="w-full p-2 border border-gray-300 rounded-md" 
+                  required
+                />
+              </div>
+              <br />
+              <div>
+                <label className="block mb-2 font-medium">Digite aqui o código de segurança do seu cartão de crédito.</label>
+                <input 
+                  type="number" 
+                  placeholder="XXX" 
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  maxLength={3} 
+                  value={threeDigitNumber}
+                  onChange={(e) => setThreeDigitNumber(e.target.value)}
+                  required
+                  min="100"
+                  max="999"
+                />
+              </div>
+              <br />
+              <div className="flex items-center justify-center">
+                <button type="submit" className="font-medium hover:font-bold px-4 py-2 hover:px-5 border-black border-2 rounded transition">Descobrir!</button>
+              </div>
+              <br />
+            </form>
+          </>
+        ) : (
           <div>
-            <label className="block mb-2 font-medium">Digite aqui o número do seu cartão de crédito.</label>
-            <input 
-              type="number" 
-              placeholder="XXXX XXXX XXXX XXXX" 
-              className="w-full p-2 border border-gray-300 rounded-md" 
-              maxLength={19} 
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
-              required 
-            />
+            <h3>Legal, você é: {character}</h3>
+            {characterImage && (
+              <img src={characterImage} alt={character ?? "Personagem"} style={{ width: '200px', height: 'auto' }} />
+            )}
           </div>
-          <br />
-          <div>
-            <label className="block mb-2 font-medium">Digite aqui a data de validade do seu cartão de crédito.</label>
-            <input 
-              type="text" 
-              placeholder="MM/AAAA" 
-              value={date} 
-              maxLength={7} 
-              onChange={handleDateChange} 
-              className="w-full p-2 border border-gray-300 rounded-md" 
-              required
-            />
-          </div>
-          <br />
-          <div>
-            <label className="block mb-2 font-medium">Digite aqui o código de segurança do seu cartão de crédito.</label>
-            <input 
-              type="number" 
-              placeholder="XXX" 
-              className="w-full p-2 border border-gray-300 rounded-md"
-              maxLength={3} 
-              value={threeDigitNumber}
-              onChange={(e) => setThreeDigitNumber(e.target.value)}
-              required
-              min="100"
-              max="999"
-            />
-          </div>
-          <br />
-          <div className="flex items-center justify-center">
-            <button type="submit" className="font-medium hover:font-bold px-4 py-2 hover:px-5 border-black border-2 rounded transition">Descobrir!</button>
-          </div>
-          <br />
-        </form>
-
-        {character && (
-        <div>
-          <h3>Você é: {character}</h3>
-          {characterImage && <img src={characterImage} alt={character} style={{ width: '200px', height: 'auto' }} />}
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

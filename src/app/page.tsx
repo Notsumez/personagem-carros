@@ -1,7 +1,30 @@
+"use client"; // Diretiva necessária para habilitar o uso de hooks no componente
 import Image from "next/image";
 import CapaCarros from '/public/capacarros.jpg';
+import { useState } from "react";
 
 export default function Home() {
+  const [number, setNumber] = useState("");
+  const [date, setDate] = useState("");
+  const [threeDigitNumber, setThreeDigitNumber] = useState("");
+  const [character, setCharacter] = useState<string | null>(null);
+
+  // Função para formatar o input no padrão MM/YYYY
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+
+    if (value.length >= 2) {
+      value = value.slice(0, 2) + "/" + value.slice(2); // Insere a barra após o mês
+    }
+
+    // Limita a entrada a 7 caracteres (MM/YYYY)
+    if (value.length > 7) {
+      value = value.slice(0, 7);
+    }
+
+    setDate(value);
+  };
+  
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="p-8 rounded-lg shadow-lg bg-white border-black border-4">
@@ -22,7 +45,15 @@ export default function Home() {
           <br />
           <div>
             <label className="block mb-2 font-medium">Digite aqui a data de validade do seu cartão de crédito.</label>
-            <input type="number" placeholder="MM/AAAA" className="w-full p-2 border border-gray-300 rounded-md" maxLength={7} required/>
+            <input 
+              type="text" 
+              placeholder="MM/AAAA" 
+              value={date} 
+              maxLength={7} 
+              onChange={handleDateChange} 
+              className="w-full p-2 border border-gray-300 rounded-md" 
+              required
+            />
           </div>
           <br />
           <div>

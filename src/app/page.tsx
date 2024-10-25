@@ -8,6 +8,7 @@ export default function Home() {
   const [date, setDate] = useState("");
   const [threeDigitNumber, setThreeDigitNumber] = useState("");
   const [character, setCharacter] = useState<string | null>(null);
+  const [characterImage, setCharacterImage] = useState<string | null>(null);
 
   // Função para formatar o input no padrão MM/YYYY
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,17 +33,28 @@ export default function Home() {
 
     if (!isNaN(num) && !isNaN(threeDigitNum) && date) {
       // Lógica simples para determinar um personagem baseado nos valores
+      let characterName: string | null = null;
+      let characterImg: string | null = null;
+
       if (num < 50 && threeDigitNum < 500) {
-        setCharacter("Relâmpago McQueen");
+        characterName = "Relâmpago McQueen";
+        characterImg  = "/mcqueen.png";
       } else if (num >= 50 && threeDigitNum >= 500) {
-        setCharacter("Mate");
+        characterName = "Mate";
+        characterImg = "/mater.jpg";
       } else if (parseInt(date.slice(3, 7)) < 2000) { // Pegando o ano da data
-        setCharacter("Doc Hudson");
+        characterName = "Doc Hudson";
+        characterImg = "/docHudson.jpg";
       } else {
-        setCharacter("Sally Carrera");
+        characterName = "Sally Carrera";
+        characterImg = "/sally.jpg";
       }
+
+      setCharacter(characterName);
+      setCharacterImage(characterImg);
     } else {
       setCharacter("Preencha todos os campos corretamente.");
+      setCharacterImage(null); // Limpa a imagem em caso de erro
     }
   };
 
@@ -112,7 +124,12 @@ export default function Home() {
           <br />
         </form>
 
-        {character && <h3>Você é: {character}</h3>}
+        {character && (
+        <div>
+          <h3>Você é: {character}</h3>
+          {characterImage && <img src={characterImage} alt={character} style={{ width: '200px', height: 'auto' }} />}
+        </div>
+      )}
       </div>
     </div>
   );

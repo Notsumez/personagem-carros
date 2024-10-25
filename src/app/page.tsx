@@ -125,7 +125,12 @@ export default function Home() {
                   className="w-full p-2 border border-gray-300 rounded-md"
                   maxLength={3} 
                   value={threeDigitNumber}
-                  onChange={(e) => setThreeDigitNumber(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+                    if (value.length <= 3) {
+                      setThreeDigitNumber(value); // Atualiza o estado se o valor tiver 3 dígitos ou menos
+                    }
+                  }}
                   required
                   min="100"
                   max="999"
